@@ -252,25 +252,67 @@ def create_app(test_config=None):
     one question at a time is displayed, the user is allowed to answer
     and shown whether they were correct or not.
     """
-    # @app.route('/quizzes', methods=['POST'])
-    # def start_trivia():
+    @app.route('/quizzes', methods=['POST'])
+    def start_trivia():
+        try:
+            body = request.get_json()
+            quiz_category = body.get('quiz_category')
+            previous_questions = body.get('previous_questions')
+            category_id = quiz_category['id']
 
-    #     body = request.get_json()
-    #     category = body.get('quiz_category')
-    #     previous_questions = body.get('previous_questions')
+            if category_id == 0:
+                questions = Question.query.filter(Question.id.notin_(previous_questions), 
+                Question.category == category_id).all()
+            else:
+                questions = Question.query.filter(Question.id.notin_(previous_questions), 
+                Question.category == category_id).all()
+            question = None
+            if(questions):
+                question = random.choice(questions)
 
-    #     if category['type'] == 'click':
-    #         available_questions = Question.query.filter(Question.id.notin_(
-    #             (previous_questions))).all()
-    #     else:
-
-
+            return jsonify({
+                'success': True,
+                'question': question.format()
+            })
+        except:
+            abort(422)
 
     """
     @TODO:
     Create error handlers for all expected errors
     including 404 and 422.
     """
+    @app.errorhandler(404)
+    def not_found(error):
+        return( 
+            jsonify({'success': False, 'error': 404,'message': 'resource not found'}),
+            404
+        )
+    
+    @app.errorhandler(422)
+    def unprocessed(error):
+        return(
+            jsonify({'success': False, 'error': 422,'message': 'request cannot be processed'}),
+            422
+
+        )
+
+    @app.errorhandler(400)
+    def bad_request(error):
+        return(
+            jsonify({'success': False, 'error': 400,'message': 'bad request'}),
+            422
+
+        )
+
+    @app.errorhandler(405)
+    def not_allowed(error):
+        return(
+            jsonify({'success': False, 'error': 405,'message': 'method not alllowed'}),
+            422
+
+        )
+        
 
 
     return app
