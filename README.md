@@ -39,4 +39,4 @@ The [frontend](./frontend) directory contains a complete React frontend to consu
 
 ### API DOCUMENTATION
 
-Please check [here]() for the API documentation
+Please check [here](https://stenwire.github.io/Trivia-API/) for the API documentation
