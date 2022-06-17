@@ -79,7 +79,7 @@ flask run
 
 ### API DOCUMENTATION
 
-Please check [here]() for the API documentation
+Please check [here](https://stenwire.github.io/Trivia-API/) for the API documentation
 ## Testing
 
 To deploy the tests, run
