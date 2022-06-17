@@ -40,7 +40,7 @@ Currently, when a user plays the game they play up to five questions of the chos
 
 ### Expected endpoints and behaviors
 
-Please check [here]() for the API documentation
+Please check [here](https://stenwire.github.io/Trivia-API/) for the API documentation
 
 ### Tools used
 * React
