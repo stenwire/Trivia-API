@@ -1,3 +1,5 @@
+# API DOCUMENTATION FOR TRIVIA API
+
 
 `GET '/api/v1.0/categories'`
 
