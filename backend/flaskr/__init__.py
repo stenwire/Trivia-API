@@ -107,7 +107,7 @@ def create_app(test_config=None):
                 "success": True,
                 "questions": list(questions),
                 "total_questions": len(question),
-                "current_category": None,
+                "current_category": 'sten',
                 "total_categories": {item.id: item.type for item in categories}
             })
 
@@ -121,20 +121,20 @@ def create_app(test_config=None):
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
         try:
-            question = Question.query.filter(Question.id == question_id).one_or_none()
-            del_question = Question.query(Question.question).filter(Question.id == question_id)
+            question = Question.query.get(question_id)
+            # del_question = Question.query(Question.question).filter(Question.id == question_id)
+            
             if question is None:
-                abort(422)
+                abort(404)
+            
             question.delete()
-            selection = Question.query.order_by(question.id).all()
-            # current_questions = paginate_questions(request, selection)
+
             tot_question = len(Question.query.all())
 
             return jsonify({
                 'success': True,
-                'question_id': question_id,
-                'question_deleted': del_question,
-                # 'questions': current_questions,
+                'deleted': question_id,
+                # 'question_deleted': del_question,
                 'total_questions': tot_question
             })
         except:
@@ -152,32 +152,37 @@ def create_app(test_config=None):
     """
     @app.route('/questions', methods=['POST'])
     def add_question():
+
         body = request.get_json()
+
         new_question = body.get('question')
         new_answer = body.get('answer')
-        new_category = body.get('answer')
+        new_category = body.get('category')
         new_difficulty = body.get('difficulty')
 
         if (body, new_question, new_answer, new_category, new_difficulty) == None:
             abort(422)
 
         try:
-            question = Question(question=new_question, answer=new_answer,
-             category=new_category, difficulty=new_difficulty)
+            question = Question(
+                question=new_question,
+                answer=new_answer,
+                category=new_category,
+                difficulty=new_difficulty
+                )
 
             question.insert()
 
-            selection = Question.query.order_by(Question.id).all()
-            # current_questions = paginate_questions(request, selection)
             tot_questions = Question.query.all()
+            current_questions = paginate_questions(request, tot_questions)
 
             return jsonify({
             'success': True,
-            'created': question.new_question,
-            # 'questions': current_questions,
+            'created': question.id,
+            'questions': current_questions,
+            # 'created': question.new_question,
             'total_questions': len(tot_questions)
         })
-
         except:
             abort(422)
 
@@ -191,7 +196,7 @@ def create_app(test_config=None):
     only question that include that string within their question.
     Try using the word "title" to start.
     """
-    @app.route('/questions/search', methods=['POST'])
+    @app.route('/questions/search')
     # http://127.0.0.1:5000/questions/search?search=What
 
     def search_questions():
@@ -217,7 +222,7 @@ def create_app(test_config=None):
     categories in the left column will cause only questions of that
     category to be shown.
     """
-    @app.route('/category/<int:category_id>/questions')
+    @app.route('/categories/<int:category_id>/questions')
     def category_questions(category_id):
     # http://127.0.0.1:5000/category/2/questions
 
@@ -301,7 +306,7 @@ def create_app(test_config=None):
     def bad_request(error):
         return(
             jsonify({'success': False, 'error': 400,'message': 'bad request'}),
-            422
+            400
 
         )
 
@@ -309,7 +314,7 @@ def create_app(test_config=None):
     def not_allowed(error):
         return(
             jsonify({'success': False, 'error': 405,'message': 'method not alllowed'}),
-            422
+            405
 
         )
         
