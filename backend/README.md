@@ -75,11 +75,6 @@ $env:FLASK_ENV: "development"
 flask run
 ```
 
-
-
-### API DOCUMENTATION
-
-Please check [here](https://stenwire.github.io/Trivia-API/) for the API documentation
 ## Testing
 
 To deploy the tests, run
@@ -101,3 +96,9 @@ create database trivia_test
 \i trivia.psql
 python test_flaskr.py
 ```
+
+### API DOCUMENTATION
+
+Please check [here](https://stenwire.github.io/Trivia-API/) for the API documentation and test queries
+
+🐱‍👤🐱‍👤🐱‍👤🐱‍👤🐱‍👤🐱‍👤🐱‍👤🐱‍👤🐱‍👤🐱‍👤🐱‍👤
