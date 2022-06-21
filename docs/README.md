@@ -1,4 +1,4 @@
-# API DOCUMENTATION FOR TRIVIA API
+# API DOCUMENTATION FOR TRIVIA API 🍱🥧
 
 
 `GET '/api/v1.0/categories'`
@@ -177,3 +177,23 @@
   "currentCategory": "Entertainment"
 }
 ```
+
+## SAMPLE CURL REQUEST 🕵️‍♀️
+> --------------- CURL QUERIES TO TEST ENDPOINTS -------------
+
+```bash
+curl http://127.0.0.1:5000/books/8 -X PATCH -H "Content-Type: application/json" -d '{"rating":"1"}'
+````
+
+```bash
+curl http://127.0.0.1:5000/questions
+````
+
+```bash
+curl -X DELETE http://127.0.0.1:5000/questions/8 
+````
+
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"question":"what is my name", "answer":"Stephen Nwankwo", "category":"5", "difficulty":"2"}' http://127.0.0.1:5000/questions 
+````
+
